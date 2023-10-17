@@ -720,3 +720,83 @@ ON C.IDCLIENTE = T.ID_CLIENTE;
 | AMANDA       | AMANDA@GMAIL.COM    | MA     | 983783728 |
 +--------------+---------------------+--------+-----------+
 
+/* VIEW - funciona como um ponteiro que aponta para a query*/
+
+SELECT C.NOME, 
+	C.SEXO, 
+	C.EMAIL, 
+	T.TIPO, 
+	T.NUMERO, 
+	E.BAIRRO, 
+	E.CIDADE, 
+	E.ESTADO
+FROM CLIENTE C
+INNER JOIN TELEFONE T
+ON C.IDCLIENTE = T.ID_CLIENTE
+INNER JOIN ENDERECO E
+ON C.IDCLIENTE = E.ID_CLIENTE;
+
+
+CREATE VIEW RELATORIO AS
+SELECT C.NOME, 
+	C.SEXO, 
+	C.EMAIL, 
+	T.TIPO, 
+	T.NUMERO, 
+	E.BAIRRO, 
+	E.CIDADE, 
+	E.ESTADO
+FROM CLIENTE C
+INNER JOIN TELEFONE T
+ON C.IDCLIENTE = T.ID_CLIENTE
+INNER JOIN ENDERECO E
+ON C.IDCLIENTE = E.ID_CLIENTE;
+
+SELECT * FROM RELATORIO;
+
++--------------+------+---------------------+------+-----------+------------+----------------+--------+
+| NOME         | SEXO | EMAIL               | TIPO | NUMERO    | BAIRRO     | CIDADE         | ESTADO |
++--------------+------+---------------------+------+-----------+------------+----------------+--------+
+| IAGO ABAX    | M    | IGO@GMAIL.COM       | CEL  | 87834394  | CENTRO     | BELO HORIZONTE | MG     |
+| IAGO ABAX    | M    | IGO@GMAIL.COM       | RES  | 92831232  | CENTRO     | BELO HORIZONTE | MG     |
+| JOÃO ALMEIDA | M    | JOAOGUI@GMAIL.COM   | RES  | 94232032  | RENASCENÇA | SÃO LUÍS       | MA     |
+| CLARA RUIZ   | F    | CLARARUIZ@GMAIL.COM | CEL  | 32038922  | FLORES     | SÃO PAULO      | SP     |
+| LUCAS PEDRO  | M    | NULL                | COM  | 12782378  | CENTRO     | NITERÓI        | RJ     |
+| CLARA RUIZ   | F    | CLARARUIZ@GMAIL.COM | RES  | 34243121  | FLORES     | SÃO PAULO      | SP     |
+| FLAVIO       | M    | FLAVIO@GMAIL.COM    | CEL  | 746377266 | CASCADURA  | B. HORIZONTE   | MG     |
+| GIOVANNA     | F    | NULL                | CEL  | 239232938 | CENTRO     | SÃO LUÍS       | MA     |
+| GIOVANNA     | F    | NULL                | COM  | 653423232 | CENTRO     | SÃO LUÍS       | MA     |
+| KARLA        | F    | KARLA@GMAIL.COM     | CEL  | 873827827 | JARDINS    | CURITIBA       | PR     |
+| DANIELLE     | F    | DANIELLE@GMAIL.COM  | COM  | 373121211 | BOM RETIRO | CURITIBA       | PR     |
+| DANIELLE     | F    | DANIELLE@GMAIL.COM  | CEL  | 623562536 | BOM RETIRO | CURITIBA       | PR     |
+| LORENA       | F    | LORENA@GMAIL.COM    | RES  | 534223232 | CENTRO     | NITERÓI        | RJ     |
+| AMANDA       | F    | AMANDA@GMAIL.COM    | RES  | 983783728 | CENTRO     | SÃO LUÍS       | MA     |
++--------------+------+---------------------+------+-----------+------------+----------------+--------+
+
+
+/* COMO LOCALIZAR AS VIEWS */
+SHOW TABLES;
+
+/*APAGANDO UMA VIEW */
+DROP VIEW RELATORIO;
+
+/* INSERINDO UM PREFIXO */
+
+CREATE VIEW V_RELATORIO AS
+SELECT C.NOME, 
+	C.SEXO, 
+	IFNULL(C.EMAIL, 'CLIENTE SEM EMAIL') AS "E-MAIL", 
+	T.TIPO, 
+	T.NUMERO, 
+	E.BAIRRO, 
+	E.CIDADE, 
+	E.ESTADO
+FROM CLIENTE C
+INNER JOIN TELEFONE T
+ON C.IDCLIENTE = T.ID_CLIENTE
+INNER JOIN ENDERECO E
+ON C.IDCLIENTE = E.ID_CLIENTE;
+
+
+SELECT NOME, NUMERO, ESTADO
+FROM V_RELATORIO;
