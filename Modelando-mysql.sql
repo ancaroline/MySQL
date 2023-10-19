@@ -800,3 +800,22 @@ ON C.IDCLIENTE = E.ID_CLIENTE;
 
 SELECT NOME, NUMERO, ESTADO
 FROM V_RELATORIO;
+
+/* OPERAÇÕES DE DML EM VIEWS */
+INSERT INTO V_RELATORIO VALUES(
+'ANDREIA', 'F', 'ANDREIA@UOL.COM.BR', 'CEL', '90328392', 'CENTRO', 'VITORIA', 'ES'
+);
+
+ERROR 1394 (HY000): Can not insert into join view 'comercio.v_relatorio' without fields list
+/* não é possível fazer insert em views que contém join */
+
+DELETE FROM V_RELATORIO WHERE NOME = 'JORGE';
+
+ERROR 1395 (HY000): Can not delete from join view 'comercio.v_relatorio'
+/* não é possível fazer insert em views que contém join */
+
+UPDATE V_RELATORIO INSERT NOME = 'JOSE'  WHERE NOME = 'JORGE'     
+/* É permitido fazer updates em views com join */   
+
+SELECT * FROM V_RELATORIO
+WHERE SEXO = 'F';            
