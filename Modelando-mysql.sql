@@ -818,4 +818,152 @@ UPDATE V_RELATORIO INSERT NOME = 'JOSE'  WHERE NOME = 'JORGE'
 /* É permitido fazer updates em views com join */   
 
 SELECT * FROM V_RELATORIO
-WHERE SEXO = 'F';            
+WHERE SEXO = 'F';         
+
+/* ORDENANDO DADOS - ORDER BY */  
+
+/* DATABASE: ESCOLA */
+
+CREATE TABLE ALUNOS(
+	NUMERO INT,
+	NOME VARCHAR(30)
+);
+
+INSERT INTO ALUNOS VALUES(1, 'JOAO'); 
+INSERT INTO ALUNOS VALUES(1, 'MARIA');
+INSERT INTO ALUNOS VALUES(2, 'ZOE');
+INSERT INTO ALUNOS VALUES(2, 'RICARDO');
+INSERT INTO ALUNOS VALUES(3, 'ANDRÉ');
+INSERT INTO ALUNOS VALUES(1, 'CLARA');
+INSERT INTO ALUNOS VALUES(4, 'CLARA');
+INSERT INTO ALUNOS VALUES(5, 'FELIPE');
+INSERT INTO ALUNOS VALUES(5, 'MARIANA');
+INSERT INTO ALUNOS VALUES(6, 'MARTA');
+INSERT INTO ALUNOS VALUES(7, 'JOCA');
+INSERT INTO ALUNOS VALUES(3, 'DAMIÃO');
+
+SELECT * FROM ALUNOS
+ORDER BY NUMERO;
+
+SELECT * FROM ALUNOS
+ORDER BY 1;  /* ORDENAR PELO NUMERO DA COLUNA */
+
+SELECT * FROM ALUNOS
+ORDER BY 2;  /* ORDENAR PELO NOME DA COLUNA */
+
+/* ORDENANDO POR MAIS DE UMA COLUNA */
+
+SELECT * FROM ALUNOS
+ORDER BY NUMERO, NOME;
+
+/* MESCLANDO ORDER BY COM PREJEÇÃO */
+SELECT NOME FROM ALUNOS
+ORDER BY 1, 2;  /* NÃO FUNCIONARÁ, POIS ESTÁ INDEXANDO COLUNA, 
+ELE IRÁ LER DE BAIXO PARA CIMA. 
+SE NÃO ESTIVER TRAZENDO A COLUNA NA PROJEÇÃO, ELE NÃO SABERÁ QUEM É */
+
+/* QUANDO QUISER MESCLAR O ORDERBY COM A SUA PROJEÇÃO PRECISA TRAZER SEMPRE POR NOME */
+SELECT NOME FROM ALUNOS
+ORDER BY NUMERO, NOME;
+
+/* ORDER BY DESC / ASC */
+SELECT * FROM ALUNOS
+ORDER BY 1 ASC; /* PADRÃO */
+
++--------+---------+
+| NUMERO | NOME    |
++--------+---------+
+|      1 | JOAO    |
+|      1 | MARIA   |
+|      1 | CLARA   |
+|      2 | ZOE     |
+|      2 | RICARDO |
+|      3 | ANDRÉ   |
+|      3 | DAMIÃO  |
+|      4 | CLARA   |
+|      5 | FELIPE  |
+|      5 | MARIANA |
+|      6 | MARTA   |
+|      7 | JOCA    |
++--------+---------+
+
+SELECT * FROM ALUNOS
+ORDER BY 1 DESC;
+
++--------+---------+
+| NUMERO | NOME    |
++--------+---------+
+|      7 | JOCA    |
+|      6 | MARTA   |
+|      5 | FELIPE  |
+|      5 | MARIANA |
+|      4 | CLARA   |
+|      3 | ANDRÉ   |
+|      3 | DAMIÃO  |
+|      2 | ZOE     |
+|      2 | RICARDO |
+|      1 | JOAO    |
+|      1 | MARIA   |
+|      1 | CLARA   |
++--------+---------+
+
+SELECT * FROM ALUNOS
+ORDER BY 1, 2 DESC; /* NUMERO ASCENDENTE E NOME DESCENDENTE */
+
++--------+---------+
+| NUMERO | NOME    |
++--------+---------+
+|      1 | MARIA   |
+|      1 | JOAO    |
+|      1 | CLARA   |
+|      2 | ZOE     |
+|      2 | RICARDO |
+|      3 | DAMIÃO  |
+|      3 | ANDRÉ   |
+|      4 | CLARA   |
+|      5 | MARIANA |
+|      5 | FELIPE  |
+|      6 | MARTA   |
+|      7 | JOCA    |
++--------+---------+
+
+SELECT * FROM ALUNOS
+ORDER BY 1 DESC, 2 DESC; /* TODOS DESCENDENTES */
+
++--------+---------+
+| NUMERO | NOME    |
++--------+---------+
+|      7 | JOCA    |
+|      6 | MARTA   |
+|      5 | MARIANA |
+|      5 | FELIPE  |
+|      4 | CLARA   |
+|      3 | DAMIÃO  |
+|      3 | ANDRÉ   |
+|      2 | ZOE     |
+|      2 | RICARDO |
+|      1 | MARIA   |
+|      1 | JOAO    |
+|      1 | CLARA   |
++--------+---------+
+
+/* ORDENANDO COM JOINS */
+/* DATABASE COMERCIO */
+
+SELECT C.NOME, 
+	C.SEXO, 
+	IFNULL(C.EMAIL, 'CLIENTE SEM EMAIL') AS "E-MAIL", 
+	T.TIPO, 
+	T.NUMERO, 
+	E.BAIRRO, 
+	E.CIDADE, 
+	E.ESTADO
+FROM CLIENTE C
+INNER JOIN TELEFONE T
+ON C.IDCLIENTE = T.ID_CLIENTE
+INNER JOIN ENDERECO E
+ON C.IDCLIENTE = E.ID_CLIENTE
+ORDER BY 1;
+
+SELECT * FROM V_RELATORIO
+ORDER BY 1;
